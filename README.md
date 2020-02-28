@@ -14,7 +14,7 @@ sudo snap install lxd
 After that is done install the zfs filesystem which are the recommended storage backend for LXD. 
 This is done with the following command 
 ``` bash
-sudo snap install lxd
+sudo apt install zfsutils-linux
 ```
 
 ## Initialize LXD
