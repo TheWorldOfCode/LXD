@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echoerr() { printf "\033[0;31m%s\n\033[0m" "$*" >&2; }
+
+if [[ x"$1" == "x" ]]; then
+	echoerr "This scripts requires one argument, the full path to the vim dot folder"
+fi
+
+if [[ $(lxc profile list | grep vim -c) -eq 1 ]]; then
+	echo The Profile already exists
+	read -p "Would you like to chance it? [Y]/n" result
+
+	if [[ $result == n ]]; then
+		exit 0		
+	fi
+
+	lxc profile device remove vim vim
+else
+	lxc profile create vim
+fi
+
+
+lxc profile device add vim vim disk source=$1 path=/tmp/vim

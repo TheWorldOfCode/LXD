@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echoerr() { printf "\033[0;31m%s\n\033[0m" "$*" >&2; }
+
+if [[ $(lxc profile list | grep modules -c) -eq 1 ]]; then
+	echo The Profile already exists
+	read -p "Would you like to chance it? [Y]/n" result
+
+	if [[ $result == n ]]; then
+		exit 0		
+	fi
+
+	lxc profile device remove modules modules 2>/dev/null
+else
+	lxc profile create modules
+fi
+
+
+moduleFolder=$(uname -r)
+lxc profile device add modules modules disk source=/lib/modules/$moduleFolder path=/lib/modules/$moduleFolder
